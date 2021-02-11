@@ -1,0 +1,12 @@
+{
+    "name": "IoTyBigdata",
+    "description": "este es del tutorial de edx",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "flow.json",
+            "credentialsFile": "flow_cred.json"
+        }
+    }
+}
