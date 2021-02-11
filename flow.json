@@ -7,10 +7,20 @@
         "info": ""
     },
     {
+        "id": "d9e5d9.c9d86a28",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "grupounoiot",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
         "id": "93f77276.b030a",
         "type": "inject",
         "z": "b5a275c5.ee47a8",
-        "name": "",
+        "name": "simularJson",
         "props": [
             {
                 "p": "payload"
@@ -25,13 +35,13 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 310,
-        "y": 120,
+        "payload": "{\"temperatura\":23,\"humedad\":70}",
+        "payloadType": "json",
+        "x": 110,
+        "y": 60,
         "wires": [
             [
-                "485425af.26beac"
+                "23d4ad84.17add2"
             ]
         ]
     },
@@ -44,56 +54,44 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 620,
-        "y": 200,
+        "x": 510,
+        "y": 260,
         "wires": []
     },
     {
-        "id": "30faa3ed.71606c",
-        "type": "inject",
+        "id": "c24f6978.9b5428",
+        "type": "mysql",
         "z": "b5a275c5.ee47a8",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 270,
-        "y": 280,
+        "mydb": "d9e5d9.c9d86a28",
+        "name": "registrosensor",
+        "x": 380,
+        "y": 200,
         "wires": [
             [
-                "c572c.876d08d48"
+                "485425af.26beac"
             ]
         ]
     },
     {
-        "id": "c572c.876d08d48",
-        "type": "debug",
+        "id": "23d4ad84.17add2",
+        "type": "function",
         "z": "b5a275c5.ee47a8",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 690,
-        "y": 400,
-        "wires": []
+        "name": "insertSql",
+        "func": "temperatura = msg.payload.temperatura; \nhumedad = msg.payload.humedad; \nmsg.topic = \"insert into registrosensor (id, temperatura , humedad, fecha) values (default,\" + temperatura + \",\" + humedad + \",\" + \"CURRENT_TIMESTAMP\"+ \")\"; \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 240,
+        "y": 120,
+        "wires": [
+            [
+                "c24f6978.9b5428"
+            ]
+        ]
     }
 ]
